@@ -7,7 +7,8 @@ import { auth } from "../../firebase/firebase.utils";
 import { selectCurrentUser } from "../../redux/user/user.selectors.js";
 
 //Syntax for importing svg image {ReactComponent as blabla}
-import { ReactComponent as Logo } from "../../assets/crown.svg";
+import { ReactComponent as Logo } from "../../assets/logo_YL.svg";
+import CartIcon from "../cart-icon/cart-icon.component";
 import "./header.styles.scss";
 
 const Header = ({ currentUser, hidden }) => (
@@ -31,6 +32,7 @@ const Header = ({ currentUser, hidden }) => (
       <Link className="option" to="/shop">
         CONTACT
       </Link>
+      <CartIcon />
     </div>
   </div>
 );

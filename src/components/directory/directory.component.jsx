@@ -27,8 +27,10 @@ const Directory = ({ sections }) => (
   {this.state.sections.map(({id, ...otherSectionProps }) => (
   <MenuItem key={id} {...otherSectionProps}/>
   */
+  
   <div className="directory-menu">
-    {sections.map(({ title, imageUrl, id }) => (
+    {
+      sections.map(({ title, imageUrl, id }) => (
       <MenuItem
         key={id}
         title={title}
@@ -36,6 +38,7 @@ const Directory = ({ sections }) => (
         Subtitle={Subtitle(id)}
       />
     ))}
+    
   </div>
 );
 
