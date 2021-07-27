@@ -1,8 +1,10 @@
 .sign-in-and-sign-up {
     width: 850px;
     display: flex;
-    justify-content: space-between;
+    //Sign in or register form will be at the center
+    justify-content: center;
     margin: 30px auto;
+
 }
 
 .register-header {
@@ -13,7 +15,7 @@
   }
 
 .type-of-user {
-    width: 750px;
+    max-width: 750px;
     font-size:medium;
     font-style: italic;
     display: flex;

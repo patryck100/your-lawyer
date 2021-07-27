@@ -3,6 +3,7 @@ import Select from "react-select";
 
 import SignIn from "../../components/sign-in/sign-in.component";
 import SignUp from "../../components/sign-up/sign-up.component";
+import CenteredTabs from "../../components/centered-tabs/centered-tabs.components";
 
 import "./sign-in-and-sign-up.styles.scss";
 
@@ -10,29 +11,31 @@ class SignInAndSignUpPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      SelectedOption: null,
+      typeOfUser: [
+        { label: "I already have an account", value: "" },
+        { label: "Client", value: 1 },
+        { label: "Lawyer", value: 2 },
+      ],
+      SelectedOption: "",
     };
   }
 
-  typeOfUser = [
-    { label: "I already have an account", value: "" },
-    { label: "Client", value: 1 },
-    { label: "Lawyer", value: 2 },
-  ];
-
-  handleChange = (e) => {
-    this.setState({ SelectedOption: e.target });
-    console.log(this.SelectedOption);
+  handleChange = (SelectedOption) => {
+    this.setState({ SelectedOption: SelectedOption.value });
+    console.log(SelectedOption);
   };
 
   render() {
+    const { typeOfUser, SelectedOption } = this.state;
+
     return (
       <div>
         <div className="register-header">
           <h1> You can register as a Client or as a Lawyer </h1>
         </div>
         <div className="type-of-user">
-          <div className="client-option">
+          <CenteredTabs />
+          {/*<div className="client-option">
             <h2>Client</h2>
             <p>
               Are you looking for a solution to your judirical case? By
@@ -55,26 +58,21 @@ class SignInAndSignUpPage extends React.Component {
               <br />- Consult your cases
               <br />- Solve cases and gain professional exposure
             </p>
-          </div>
+            <hr />
+          </div>*/}
         </div>
-        <hr />
         <div className="register-header">
           <h1> Select the type of your account </h1>
         </div>
 
         <Select
-          value={this.SelectedOption}
           className="select"
-          options={this.typeOfUser}
+          options={typeOfUser}
           onChange={this.handleChange}
           isSearchable={false}
           placeholder="Select type of user..."
         />
-        <div className="sign-in-and-sign-up">
-          <SignIn />
-          <SignUp />
-        </div>
-        {/*`${this.SelectedOption}` === "" ? ( //gives the user the option to sign out in case he/she is sign in already
+        {`${SelectedOption}` === "" ? ( //gives the user the option to sign out in case he/she is sign in already
           <div className="sign-in-and-sign-up">
             <SignIn />
           </div>
@@ -83,7 +81,7 @@ class SignInAndSignUpPage extends React.Component {
           <div className="sign-in-and-sign-up">
             <SignUp />
           </div>
-        )*/}
+        )}
       </div>
     );
   }
