@@ -4,11 +4,13 @@ import { connect } from "react-redux"; //let us modify our component to use redu
 import { createStructuredSelector } from "reselect";
 
 import { auth } from "../../firebase/firebase.utils";
+import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors.js";
 
 //Syntax for importing svg image {ReactComponent as blabla}
-import { ReactComponent as Logo } from "../../assets/logo_YL.svg";
+import { ReactComponent as Logo } from "../../assets/YL.svg";
 import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component"
 import "./header.styles.scss";
 
 const Header = ({ currentUser, hidden }) => (
@@ -33,6 +35,11 @@ const Header = ({ currentUser, hidden }) => (
         CONTACT
       </Link>
       <CartIcon />
+      {
+        /*Place the cart outside the header, but right below it */
+        //if hidden is true, render nothing, otherwise render the cart dropdown
+        hidden ? null : <CartDropdown />
+      }
     </div>
   </div>
 );
@@ -42,7 +49,7 @@ const Header = ({ currentUser, hidden }) => (
 const mapStateToProps = createStructuredSelector({
   //state or {user: {currentUser}, cart: {hidden}}
   currentUser: selectCurrentUser,
-  //hidden: selectCartHidden
+  hidden: selectCartHidden
 });
 
 export default connect(mapStateToProps)(Header);
