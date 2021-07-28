@@ -3,14 +3,22 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { auth, createUserProfileDocument, signInWithGoogle } from "../../firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument,
+  signInWithGoogle,
+} from "../../firebase/firebase.utils";
 import "./sign-up.styles.scss";
+
+import { connect } from "react-redux";
+import { createStructuredSelector } from "reselect";
+import { selectTypeOfUser } from "../../redux/user/user.selectors";
 
 class SignUp extends React.Component {
   constructor() {
     super();
-
     this.state = {
+      license: "",
       displayName: "",
       email: "",
       password: "",
@@ -21,7 +29,8 @@ class SignUp extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword, license} =
+      this.state;
 
     if (password !== confirmPassword) {
       //validate password
@@ -32,38 +41,57 @@ class SignUp extends React.Component {
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
-        password
-      ); //creates a new user associated with email and password and also login
+        password,
 
-      await createUserProfileDocument(user, { displayName });
-    
+      ); //creates a new user associated with email and password and also login
+      
+      
+      await createUserProfileDocument(user, { displayName , license});
+
       //after awaiting new registration, clear the form back to empty
-      this.setState({ 
+      this.setState({
+        license: "",
         displayName: "",
         email: "",
         password: "",
         confirmPassword: "",
       });
 
-    } catch (error) {
+      //inform the user that the register was sucessfully
+      alert("Account registered successfuly");
+    } catch (error) { //handle errors
+      
+      alert("Something went wrong!");
       console.error(error);
     }
   };
 
-  handleChange = event => {
-      const { name, value } = event.target;
+  handleChange = (event) => {
+    const { name, value } = event.target;
 
-      //dynamically set the name according to the value
-      this.setState({[name]: value});
+    //dynamically set the name according to the value
+    this.setState({ [name]: value });
   };
 
   render() {
-    const { displayName, email, password, confirmPassword } = this.state;
+    const { displayName, email, password, confirmPassword, license } =
+      this.state;
+
     return (
       <div className="sign-up">
         <h2 className="title"> I do not have an account</h2>
         <span>Sign up with your email and password</span>
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
+          {`${this.props.TypeOfUser}` === "Lawyer" ? ( //if user choose to register as a Lawyer, it must include a Professional License
+            <FormInput
+              type="text"
+              name="license"
+              value={license}
+              onChange={this.handleChange}
+              label="Professional License"
+              required
+            />
+          ) : null}
           <FormInput
             type="text"
             name="displayName"
@@ -98,9 +126,15 @@ class SignUp extends React.Component {
           />
           <div className="buttons">
             <CustomButton type="submit"> Sign up</CustomButton>
-            <CustomButton type='button' onClick={signInWithGoogle} isGoogleSignIn>
-              Sign up with Google
-            </CustomButton>
+            {`${this.props.TypeOfUser}` === "Client" ? ( //Client has the option to sign in with google
+              <CustomButton
+                type="button"
+                onClick={signInWithGoogle}
+                isGoogleSignIn
+              >
+                Sign up with Google
+              </CustomButton>
+            ) : null}
           </div>
         </form>
       </div>
@@ -108,4 +142,8 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = createStructuredSelector({
+  TypeOfUser: selectTypeOfUser,
+});
+
+export default connect(mapStateToProps)(SignUp);

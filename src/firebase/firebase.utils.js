@@ -19,18 +19,22 @@ const config = {
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) return; //if the user doesn't exist, do nothing
 
+  //if the user exists, get the uid
   const userRef = firestore.doc(`users/${userAuth.uid}`);
+  
 
+  //by using the userRef, it gets the snapShot document
   const snapShot = await userRef.get(); //it returns the document including a property "exists" to say if it exist or not
 
   if (!snapShot.exists) {
     //if it doesn't exist, create a new user...
-    const { displayName, email } = userAuth; //properties that we want to store from the userAuth
+    const { license, displayName, email } = userAuth; //properties that we want to store from the userAuth
     const createdAt = new Date(); //current date and time it was created
 
     try {
       //setting a new user
       await userRef.set({
+        license,
         displayName,
         email,
         createdAt,
@@ -41,7 +45,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
   }
 
-  return userRef;
+  return userRef; //returns the snapShot document containing the userRef object
 };
 
 firebase.initializeApp(config);

@@ -7,6 +7,8 @@
 
  //returns the user object from state
  const selectUser = state => state.user;
+
+ const typeOfUser = state => state.user.TypeOfUser;
  
  
  
@@ -14,3 +16,8 @@
      [selectUser],
      user => user.currentUser
  );
+
+ export const selectTypeOfUser = createSelector(
+     [typeOfUser],
+     TypeOfUser => TypeOfUser
+ )

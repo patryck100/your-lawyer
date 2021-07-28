@@ -13,7 +13,7 @@
   
   &:hover { //works in everthing under menu-item instead having to use ".menu-item:bla bla"
     //mouse coursor should look like it is about to click on something
-    //cursor: pointer;
+    cursor: pointer;
 
     //the background image gives the impression as it is coming closer when it is hovered over
     //cubic-bezier allows a smother transition by calculating its time to increase

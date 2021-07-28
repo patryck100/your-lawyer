@@ -24,11 +24,11 @@ class App extends React.Component {
   componentDidMount() {
     const { setCurrentUser } = this.props;
     
-
+    //using auth library from firebase to listen to any changes that happen (e.g if a user login or logout)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         //if the authorization is successful
-        //get the reference from the createUser method
+        //get the user object and pass in to the createUser function
         const userRef = await createUserProfileDocument(userAuth); //if the user is not registered, create a new userRef doc
 
         //collecting the data from database to the application, by setting state to the user properties

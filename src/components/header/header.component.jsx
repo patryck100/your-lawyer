@@ -31,7 +31,7 @@ const Header = ({ currentUser, hidden }) => (
           SIGN IN
         </Link>
       )}
-      <Link className="option" to="/shop">
+      <Link className="option" to="/signin">
         CONTACT
       </Link>
       <CartIcon />

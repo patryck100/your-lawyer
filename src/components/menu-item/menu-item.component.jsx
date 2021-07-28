@@ -6,12 +6,13 @@ import './menu-item.styles.scss';
 
 
 
-const MenuItem = ({title, imageUrl, Subtitle}) => ( //{title} is the same as writing prop.title
+const MenuItem = ({title, imageUrl, Subtitle,  history, linkUrl}) => ( //{title} is the same as writing prop.title
   
 
     //toUpperCase() transform the text in capital letter
   <div 
-  className="menu-item" > 
+  className="menu-item"  
+  onClick={() => history.push(`${linkUrl}`)}> 
     <div className='background-image' 
     style={{
         //dinamically making style in the component by using url images to 

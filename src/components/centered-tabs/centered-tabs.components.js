@@ -72,26 +72,22 @@ export default function CenteredTabs() {
       <TabPanel value={value} index={0}>
         Are you looking for a solution to your judirical case? By registering as
         a client:
-        <ul>
-          <li>
-            You can select a specialization and Enquiry your case to
-            professional Lawyers
-          </li>
-          <li>Specialist Lawyers registered in the app will contact you</li>
-          <li>Make a deal and solve your case</li>
-          <li>Rate our Lawyers and help us to improve our service</li>
-        </ul>
+        <li>
+          You can select a specialization and Enquiry your case to professional
+          Lawyers
+        </li>
+        <li>Specialist Lawyers registered in the app will contact you</li>
+        <li>Make a deal and solve your case</li>
+        <li>Rate our Lawyers and help us to improve our service</li>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Are you looking for professional exposure? By registering as a Lawyer:
-        <ul>
-          <li>
-            You can register your specialization and receive cases from our
-            Clients
-          </li>
-          <li>Consult your cases</li>
-          <li>Solve cases and gain professional exposure</li>
-        </ul>
+        <li>
+          You can register your specialization and receive cases from our
+          Clients
+        </li>
+        <li>Consult your cases</li>
+        <li>Solve cases and gain professional exposure</li>
       </TabPanel>
     </Paper>
   );
