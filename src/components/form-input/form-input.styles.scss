@@ -13,6 +13,8 @@ $main-color: black;
 .group {
   position: relative;
   margin: 45px 0;
+  font-family:"Open Sans Condensed";
+  font-weight:"lighter";
 
   .form-input {
     background: none;
@@ -55,4 +57,13 @@ $main-color: black;
       @include shrinkLabel();
     }
   }
+
+  .select-specialization{
+    display: flex;
+    flex-direction: column;
+    font-family: Open Sans Condensed;
+    font-weight: lighter;
+    align-items: flex-start;
+  }
+
 }

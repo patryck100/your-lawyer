@@ -32,8 +32,8 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth); //if the user is not registered, create a new userRef doc
 
         //collecting the data from database to the application, by setting state to the user properties
-        userRef.onSnapshot((snapShot) => {
-          setCurrentUser({
+        userRef.onSnapshot((snapShot) => { //whenever the snapshot updates (set new data, delete, create...)
+          setCurrentUser({ //uses redux to set the current user state in the application to the object from the database
             id: snapShot.id,
             ...snapShot.data(),
           });

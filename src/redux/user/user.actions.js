@@ -8,4 +8,5 @@ export const setCurrentUser = user => ({
 export const setTypeOfUser = TypeOfUser => ({
     type: UserActionTypes.SET_TYPE_OF_USER,
     payload: TypeOfUser.value
-})
+});
+

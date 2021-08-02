@@ -3,6 +3,7 @@ import React from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import "./sign-in.styles.scss";
+import { firestore } from "../../firebase/firebase.utils";
 
 import {auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
@@ -24,10 +25,13 @@ class SignIn extends React.Component {
     const {email, password} = this.state;
 
     try {
-        await auth.signInWithEmailAndPassword(email, password);
+      const { user } = await auth.signInWithEmailAndPassword(email, password);
+      const userRef = firestore.doc(`users/${user.uid}`);
+      const displayName = await (await userRef.get()).data().displayName;
 
         //clear the fields
         this.setState({ email: "", password: "" });
+        alert("Login successful! Hello " + displayName);
     } catch (error) {
         console.log(error);
     }

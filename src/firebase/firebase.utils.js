@@ -21,25 +21,38 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
 
   //if the user exists, get the uid
   const userRef = firestore.doc(`users/${userAuth.uid}`);
-  
 
   //by using the userRef, it gets the snapShot document
   const snapShot = await userRef.get(); //it returns the document including a property "exists" to say if it exist or not
 
   if (!snapShot.exists) {
     //if it doesn't exist, create a new user...
-    const { license, displayName, email } = userAuth; //properties that we want to store from the userAuth
+    const { specialization, license, displayName, email } =
+      userAuth; //properties that we want to store from the userAuth
+    var {TypeOfUser} = userAuth; //using var to avoid "undefined" errors by changing it's value to "Client" if it is different of "Lawyer"
     const createdAt = new Date(); //current date and time it was created
 
-    try {
-      //setting a new user
-      await userRef.set({
-        license,
-        displayName,
-        email,
-        createdAt,
-        ...additionalData,
-      });
+    try { //setting a new user depending on the "TypeOfUser"
+      if (TypeOfUser === "Lawyer") { //if it is a Lawyer, set specialization and license
+        await userRef.set({
+          TypeOfUser,
+          specialization,
+          license,
+          displayName,
+          email,
+          createdAt,
+          ...additionalData,
+        });
+      } else { //otherwise type of user will be Client, so it does not need specialization of license
+        TypeOfUser = "Client";
+        await userRef.set({
+          TypeOfUser,
+          displayName,
+          email,
+          createdAt,
+          ...additionalData,
+        });
+      }
     } catch (error) {
       console.log("error creating user", error.message);
     }

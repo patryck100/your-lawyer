@@ -27,15 +27,15 @@ const CartDropdown = ({ cartItems, history, dispatch }) => (
         //otherwise show empty-message
         <EmptyMessageContainer> Your cart is empty</EmptyMessageContainer>
       )*/}
-      <EmptyMessageContainer> Your cart is empty</EmptyMessageContainer>
+      <EmptyMessageContainer> You do not have any open case</EmptyMessageContainer>
     </CartItemsContainer>
     <CartDropdownButton
       onClick={() => {
-        history.push("/checkout");
+        history.push("/mycases");
         dispatch(toggleCartHidden()); //when click on go to checkout, it changes the state of the cart-dropwdown to hidden
       }}
     >
-      GO TO CHECKOUT
+      MY CASES
     </CartDropdownButton>
   </CartDropdownContainer>
 );

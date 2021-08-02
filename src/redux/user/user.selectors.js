@@ -9,7 +9,7 @@
  const selectUser = state => state.user;
 
  const typeOfUser = state => state.user.TypeOfUser;
- 
+
  
  
  export const selectCurrentUser = createSelector(
@@ -20,4 +20,5 @@
  export const selectTypeOfUser = createSelector(
      [typeOfUser],
      TypeOfUser => TypeOfUser
- )
+ );
+

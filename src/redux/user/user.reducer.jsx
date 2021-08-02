@@ -3,6 +3,7 @@ import {UserActionTypes} from './user.types';
 const INITIAL_STATE = {
     currentUser : null,
     TypeOfUser: null,
+    Specialization: null,
 }
 
 //if state is undefined, it uses the INITIAL_STATE through this sintax below "state = INITIAL_STATE"
@@ -18,7 +19,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 TypeOfUser: action.payload
-            }
+            };
 
         //if no alteration is made, just return the current state as before
         default: 

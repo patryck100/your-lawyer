@@ -29,7 +29,6 @@ class SignInAndSignUpPage extends React.Component {
   };
   
 
-
   render() {
     const { typeOfUser, SelectedOption } = this.state;
 
@@ -52,14 +51,14 @@ class SignInAndSignUpPage extends React.Component {
           isSearchable={false}
           placeholder="Select an option..."
         />
-        {`${SelectedOption}` === "" ? ( //gives the user the option to sign out in case he/she is sign in already
+        {`${SelectedOption}` === "" ? ( //gives the user the option to sign in if the user already has an account
           <div className="sign-in-and-sign-up">
             <SignIn />
           </div>
         ) : (
-          //otherwise it points to the page to sign in
+          //or sign up as a client or lawyer depending on the type of user is selected
           <div className="sign-in-and-sign-up">
-            <SignUp/>
+            <SignUp typeOfUser={typeOfUser.value} />
           </div>
         )}
       </div>

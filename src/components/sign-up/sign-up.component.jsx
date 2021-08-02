@@ -2,6 +2,7 @@ import React from "react";
 
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
+import SelectSpecialization from "../select-option/select-option.component";
 
 import {
   auth,
@@ -14,22 +15,27 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectTypeOfUser } from "../../redux/user/user.selectors";
 
+
 class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
+      TypeOfUser: "",
       license: "",
       displayName: "",
       email: "",
       password: "",
       confirmPassword: "",
+      specialization: "",
     };
   }
+
+  
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword, license} =
+    const { displayName, email, password, confirmPassword, license, specialization } =
       this.state;
 
     if (password !== confirmPassword) {
@@ -41,15 +47,21 @@ class SignUp extends React.Component {
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
-        password,
-
+        password
       ); //creates a new user associated with email and password and also login
+
+      const {TypeOfUser} = this.props;
+
+      if (TypeOfUser === "Lawyer") { //if the user is a Lawyer, create an user profile document with license and specialization
+        await createUserProfileDocument(user, { displayName, license, specialization, TypeOfUser });
+      }
+
+      await createUserProfileDocument(user, { displayName, TypeOfUser });
       
-      
-      await createUserProfileDocument(user, { displayName , license});
 
       //after awaiting new registration, clear the form back to empty
       this.setState({
+        specialization: "",
         license: "",
         displayName: "",
         email: "",
@@ -59,8 +71,9 @@ class SignUp extends React.Component {
 
       //inform the user that the register was sucessfully
       alert("Account registered successfuly");
-    } catch (error) { //handle errors
-      
+    } catch (error) {
+      //handle errors
+
       alert("Something went wrong!");
       console.error(error);
     }
@@ -73,9 +86,19 @@ class SignUp extends React.Component {
     this.setState({ [name]: value });
   };
 
+  handleCallBack = (callBack) => {
+    this.setState({specialization: callBack})
+  }
+
   render() {
-    const { displayName, email, password, confirmPassword, license } =
-      this.state;
+    const {
+      displayName,
+      email,
+      password,
+      confirmPassword,
+      license,
+    } = this.state;
+
 
     return (
       <div className="sign-up">
@@ -83,14 +106,17 @@ class SignUp extends React.Component {
         <span>Sign up with your email and password</span>
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           {`${this.props.TypeOfUser}` === "Lawyer" ? ( //if user choose to register as a Lawyer, it must include a Professional License
-            <FormInput
-              type="text"
-              name="license"
-              value={license}
-              onChange={this.handleChange}
-              label="Professional License"
-              required
-            />
+            <div>
+              <SelectSpecialization callBack={this.handleCallBack}/>
+              <FormInput
+                type="text"
+                name="license"
+                value={license}
+                onChange={this.handleChange}
+                label="Professional License"
+                required
+              />
+            </div>
           ) : null}
           <FormInput
             type="text"
