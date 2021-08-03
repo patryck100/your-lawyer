@@ -2,19 +2,18 @@ import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-
 import "./App.css";
 
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/homepage.component";
 import Footer from "./components/Footer/Footer";
+import MyCases from "./pages/my-cases/my-cases.component";
 
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from "./redux/user/user.actions";
-import {selectCurrentUser} from './redux/user/user.selectors';
-import {createStructuredSelector} from 'reselect';
-
+import { setCurrentUser, setTypeOfUser } from "./redux/user/user.actions";
+import { selectCurrentUser } from "./redux/user/user.selectors";
+import { createStructuredSelector } from "reselect";
 
 class App extends React.Component {
   //use it to avoid memory leaks of authentication. Set authentication to null
@@ -22,8 +21,8 @@ class App extends React.Component {
 
   //when a user log in, the state will change to the name of the user
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-    
+    const { setCurrentUser, setTypeOfUser } = this.props;
+
     //using auth library from firebase to listen to any changes that happen (e.g if a user login or logout)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
@@ -32,10 +31,16 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth); //if the user is not registered, create a new userRef doc
 
         //collecting the data from database to the application, by setting state to the user properties
-        userRef.onSnapshot((snapShot) => { //whenever the snapshot updates (set new data, delete, create...)
-          setCurrentUser({ //uses redux to set the current user state in the application to the object from the database
+        userRef.onSnapshot((snapShot) => {
+          //whenever the snapshot updates (set new data, delete, create...)
+          setCurrentUser({
+            //uses redux to set the current user state in the application to the object from the database
             id: snapShot.id,
             ...snapShot.data(),
+          });
+          setTypeOfUser({
+            //when the user logs in, set the type of user in the app
+            TypeOfUser: snapShot.data().TypeOfUser,
           });
         });
       } else {
@@ -43,12 +48,12 @@ class App extends React.Component {
         setCurrentUser(userAuth);
       }
     });
-  } 
+  }
 
   //closes the subscription "logout" by setting state of authentication to null
   componentWillUnmount() {
     this.unsubscribeFromAuth();
-  } 
+  }
 
   render() {
     return (
@@ -64,29 +69,42 @@ class App extends React.Component {
           <Route
             exact
             path="/signin"
-            render={() => // if the user is logged in, it redirects and does not allow user to go to signin page 
+            render={() =>
+              // if the user is logged in, it redirects and does not allow user to go to signin page
               this.props.currentUser ? (
                 <Redirect to="/" /> // redirects to homepage
               ) : (
                 <SignInAndSignUpPage />
               )
             }
-          /> 
+          />
+          <Route
+            exact
+            path="/mycases"
+            render={() =>
+              // if the user is not logged in, it redirects and does not allow user to go to "mycases" page
+              !this.props.currentUser ? (
+                <Redirect to="/" /> // redirects to homepage
+              ) : (
+                <MyCases />
+              )
+            }
+          />
         </Switch>
-        <Footer/>
+        <Footer />
       </div>
     );
   }
 }
 
-
-const mapStateToProps = createStructuredSelector ({
-  currentUser: selectCurrentUser
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
 });
 
 //dispatch is just a way to inform redux that this is an action obj to be sent to every reducer
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-}); 
+  setTypeOfUser: (TypeOfUser) => dispatch(setTypeOfUser(TypeOfUser)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

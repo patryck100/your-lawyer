@@ -32,7 +32,8 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     var {TypeOfUser} = userAuth; //using var to avoid "undefined" errors by changing it's value to "Client" if it is different of "Lawyer"
     const createdAt = new Date(); //current date and time it was created
 
-    try { //setting a new user depending on the "TypeOfUser"
+    //uses the user reference to create a new document snapshot in firestore
+    try { //the new document will depend on the "TypeOfUser"
       if (TypeOfUser === "Lawyer") { //if it is a Lawyer, set specialization and license
         await userRef.set({
           TypeOfUser,
@@ -76,3 +77,4 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 //in case we want the whole library
 export default firebase;
+

@@ -10,13 +10,16 @@ import { connect } from "react-redux";
 import { toggleCartHidden } from "../../redux/cart/cart.actions";
 import { selectCartItemsCount } from "../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 
 
-const CartIcon = ({ toggleCartHidden, itemCount }) => (
-  <CartContainer onClick={toggleCartHidden}>
+const CartIcon = ({ toggleCartHidden, itemCount, currentUser }) => (
+  currentUser ? //if the user is logged in, displays the cart, otherwise display null
+  (<CartContainer onClick={ toggleCartHidden}>
     <CaseIcon />
     <ItemCountContainer>{itemCount/* display the quantity of items in the cart */}</ItemCountContainer>
-  </CartContainer>
+  </CartContainer>) :
+  (null)
 );
 
 //this triggers the toggleCart to hidden or unhidden
@@ -25,13 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = createStructuredSelector({ /* state or {cart: { cartItems }} */
-  itemCount: selectCartItemsCount //calls the function from "cart.selectors.js"
-  //which sum the quantity of each item in the cart array, starting by 0
-  /*or 
-  cartItems.reduce( 
-    (accumulatedQuantity, cartItem) => accumulatedQuantity + cartItem.quantity,
-    0
-  ),*/
+  itemCount: selectCartItemsCount, //calls the function from "cart.selectors.js"
+  currentUser: selectCurrentUser
 }); 
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartIcon);

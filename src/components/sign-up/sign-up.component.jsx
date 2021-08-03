@@ -1,5 +1,4 @@
 import React from "react";
-
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import SelectSpecialization from "../select-option/select-option.component";
@@ -17,8 +16,8 @@ import { selectTypeOfUser } from "../../redux/user/user.selectors";
 
 
 class SignUp extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       TypeOfUser: "",
       license: "",
@@ -31,7 +30,6 @@ class SignUp extends React.Component {
   }
 
   
-
   handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -107,7 +105,16 @@ class SignUp extends React.Component {
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           {`${this.props.TypeOfUser}` === "Lawyer" ? ( //if user choose to register as a Lawyer, it must include a Professional License
             <div>
-              <SelectSpecialization callBack={this.handleCallBack}/>
+              <SelectSpecialization callBack={this.handleCallBack} 
+              options= 
+              {
+                [{label: "Employment Law", value: "employment"},
+                {label: "Family Law", value: "family"},
+                {label: "Immigration Law", value: "immigration"},
+                {label: "Property Law", value: "property"},
+                {label: "Traffic Law", value: "traffic"},
+                {label: "Criminal Law", value: "criminal"}]
+              }/>
               <FormInput
                 type="text"
                 name="license"

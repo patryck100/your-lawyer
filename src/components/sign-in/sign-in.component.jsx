@@ -33,6 +33,7 @@ class SignIn extends React.Component {
         this.setState({ email: "", password: "" });
         alert("Login successful! Hello " + displayName);
     } catch (error) {
+        alert("Sorry, email or password incorret!")
         console.log(error);
     }
 

@@ -3,7 +3,6 @@ import {UserActionTypes} from './user.types';
 const INITIAL_STATE = {
     currentUser : null,
     TypeOfUser: null,
-    Specialization: null,
 }
 
 //if state is undefined, it uses the INITIAL_STATE through this sintax below "state = INITIAL_STATE"
