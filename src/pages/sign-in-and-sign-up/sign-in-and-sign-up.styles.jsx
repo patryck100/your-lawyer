@@ -40,6 +40,7 @@ export const SelectContainer = styled(Select)`
   width: 200px;
   margin: auto;
   margin-top: 30px;
+  z-index: 100 !important; //fix opacity problem of select dropdown
 `;
 
 

@@ -41,8 +41,7 @@ class SelectSpecialization extends React.Component {
             style={{ fontFamily: "Open Sans Condensed", fontWeight: "lighter" }}
             id="specialization"
           >
-            {" "}
-            Specialization{" "}
+            Specialization
           </InputLabel>
           <Select
             defaultValue="" //Avoids uncontrolled error
