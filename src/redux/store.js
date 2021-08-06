@@ -2,10 +2,13 @@ import { createStore, applyMiddleware } from "redux";
 import { persistStore } from "redux-persist";
 import logger from "redux-logger";
 
+//allows to handle multiple async events and multiple actions by catching all functions and dispatching it through the middleware
+import thunk from 'redux-thunk'; //has to import "yarn add redux-thunk" 
+
 import rootReducer from "./root-reducer";
 
 //this is just to make it scalable, to increase with the input
-const middlewares = [];
+const middlewares = [thunk];
 
 //it can be development, production or test
 //when run yarn start it sets to development, whereas "build" set it to production because it is going to be deployed

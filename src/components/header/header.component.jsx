@@ -28,7 +28,7 @@ const Header = ({ currentUser, hidden }) => (
       ) : (
         //otherwise it points to the page to sign in
         <Link className="option" to="/signin">
-          SIGN IN
+          SIGN IN / REGISTER
         </Link>
       )}
       <Link className="option" to="/signin">

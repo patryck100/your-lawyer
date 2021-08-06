@@ -34,10 +34,29 @@ const googleSignInStyles = css`
   }
 `;
 
+const cardsItem = css`
+  min-width: 20px;
+  width: auto;
+  heigth: auto;
+  margin-left: auto; //brings the button to the most right of the component
+  background-color: black;
+  padding: 0 15px 0 15px;
+  color: white;
+  border: none;
+
+  &:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+  }
+`;
+
 const getButtonStyles = (props) => {
   if (props.isGoogleSignIn) {
     //if its google sign in, just return the googleSignInStyles
     return googleSignInStyles;
+  } if (props.isCardsItem) {
+    return cardsItem
   } else {
     //otherwise check if it is inverted buttom or normal
     return props.inverted ? invertedButtonStyles : buttonStyles;
@@ -58,6 +77,7 @@ export const CustomButtonContainer = styled.button`
   cursor: pointer;
   display: flex;
   justify-content: center;
+
   
   //checks the type of button
   ${getButtonStyles}

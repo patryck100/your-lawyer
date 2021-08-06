@@ -5,7 +5,7 @@ import SignIn from "../../components/sign-in/sign-in.component";
 import SignUp from "../../components/sign-up/sign-up.component";
 import CenteredTabs from "../../components/centered-tabs/centered-tabs.components";
 
-//import "./sign-in-and-sign-up.styles.scss";
+
 import {
   TypeOfUserContainer,
   SignInAndSignUpContainer,
@@ -33,6 +33,7 @@ class SignInAndSignUpPage extends React.Component {
     this.setState({ SelectedOption: SelectedOption.value });
     setTypeOfUser(SelectedOption.value);
   };
+  
 
   render() {
     const { typeOfUser, SelectedOption } = this.state;

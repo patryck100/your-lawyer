@@ -17,7 +17,7 @@ import { addCollectionAndDocuments } from "../../firebase/firebase.utils";
 class EnquiryComponent extends React.Component {
   state = {
     options: [
-      { label: "No idea", value: "" },
+      { label: "No idea", value: "*" },
       { label: "Employment Law", value: "employment" },
       { label: "Family Law", value: "family" },
       { label: "Immigration Law", value: "immigration" },
@@ -32,7 +32,7 @@ class EnquiryComponent extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { specialization, enquiry } =
+    var { specialization, enquiry } =
       this.state;
 
     if (enquiry === "" || specialization === "") {
@@ -46,8 +46,9 @@ class EnquiryComponent extends React.Component {
 
     try {
       const {currentUser} = this.props;
+      specialization = specialization.value; //only needs the value from this obj
       const createdAt = new Date(); //current date and time it was created
-      await addCollectionAndDocuments("enquiries", { specialization, enquiry, createdAt, currentUser });
+      await addCollectionAndDocuments({ specialization, enquiry, createdAt, currentUser });
       
 
       //after awaiting new registration, clear the form back to empty
@@ -66,8 +67,8 @@ class EnquiryComponent extends React.Component {
   };
 
   handleCallBack = (callBack) => {
-    this.setState({ specialization: callBack.value });
-    console.log(callBack.value)
+    this.setState({ specialization: callBack });
+    console.log(callBack)
   };
 
   handleChange = (event) => {
@@ -76,13 +77,14 @@ class EnquiryComponent extends React.Component {
   };
 
   render() {
-    const { options } = this.state;
+    const { options, specialization, enquiry } = this.state;
     return (
       <div>
         <Header1> Select an specialization for your enquiry</Header1>
         <SelectContainer
           onChange={this.handleCallBack}
           options={options}
+          value={specialization}
           isSearchable
           placeholder="Select an specialization..."
         />
@@ -109,10 +111,11 @@ class EnquiryComponent extends React.Component {
               <TextField
                 multiline
                 label="ENQUIRY"
-                defaultValue=""
+                value={enquiry}
                 placeholder="Make your enquiry here"
                 onChange={this.handleChange}
                 variant="outlined"
+                required
               />
             </CardBody>
             <CardFooter

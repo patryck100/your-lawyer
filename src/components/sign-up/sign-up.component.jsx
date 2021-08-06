@@ -52,9 +52,10 @@ class SignUp extends React.Component {
 
       if (TypeOfUser === "Lawyer") { //if the user is a Lawyer, create an user profile document with license and specialization
         await createUserProfileDocument(user, { displayName, license, specialization, TypeOfUser });
+      } else {
+        await createUserProfileDocument(user, { displayName, TypeOfUser });
       }
 
-      await createUserProfileDocument(user, { displayName, TypeOfUser });
       
 
       //after awaiting new registration, clear the form back to empty
@@ -105,16 +106,7 @@ class SignUp extends React.Component {
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           {`${this.props.TypeOfUser}` === "Lawyer" ? ( //if user choose to register as a Lawyer, it must include a Professional License
             <div>
-              <SelectSpecialization callBack={this.handleCallBack} 
-              options= 
-              {
-                [{label: "Employment Law", value: "employment"},
-                {label: "Family Law", value: "family"},
-                {label: "Immigration Law", value: "immigration"},
-                {label: "Property Law", value: "property"},
-                {label: "Traffic Law", value: "traffic"},
-                {label: "Criminal Law", value: "criminal"}]
-              }/>
+              <SelectSpecialization callBack={this.handleCallBack} />
               <FormInput
                 type="text"
                 name="license"

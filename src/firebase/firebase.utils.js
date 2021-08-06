@@ -17,8 +17,8 @@ const config = {
 
 
 //Add new collections or documents to firestore
-export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
-  const collectionRef = firestore.collection(collectionKey); //if the collection ref exists, use it otherwise creates a new collection
+export const addCollectionAndDocuments = async (objectToAdd) => {
+  const collectionRef = firestore.collection(objectToAdd.specialization); //if the collection ref exists, use it otherwise creates a new collection
 
   const batch = firestore.batch(); //it is a secury way to upload things to database since if it is interrupted it doesn't upload, only if it is completely successful
   const newDocRef = collectionRef.doc(); //creates a new document reference and randomly generate IDs
@@ -26,6 +26,26 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
 
   return await batch.commit(); //commit the changes in the the database with a confirmation that everything was uploaded
 };
+
+//convert collections snapshot doc from the firestore in object with only the properties we need
+export const convertCollectionsSnapshotToMap = (collections) => {  
+  const transformedCollection = collections.docs.map((doc) => { //goes through each doc
+    const { createdAt, currentUser, enquiry, specialization } = doc.data(); //gets the data from the doc
+
+    //returns the trasnformed obj with the properties we need
+    return {
+      //javascript render to convert unreadable url string to readable url
+      id: doc.id,
+      createdAt,
+      currentUser,
+      enquiry,
+      specialization,
+    };
+  });
+  //returns a collection of objects
+  return transformedCollection;
+};
+
 
 //Check if the user exist or create a new one in the firebase
 export const createUserProfileDocument = async (userAuth, additionalData) => {
