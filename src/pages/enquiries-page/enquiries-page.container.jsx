@@ -4,7 +4,7 @@ import { compose } from "redux";
 
 import { selectIsEnquiriesLoaded } from "../../redux/handleData/handleData.selectors";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
-import MyCases from "./my-cases.component";
+import EnquiriesPage from "./enquiries-page.component";
 
 
 //returns boolean to informa if the data is being fetch or has finished fetching data
@@ -19,9 +19,9 @@ const mapStateToProps = createStructuredSelector({
  * The rightmost function can take multiple arguments as it provides
  * the signature for the resulting composite function.
  */
-const MyCasesContainer = compose(
+const EnquiriesPageContainer = compose(
   connect(mapStateToProps),
   WithSpinner
-)(MyCases);
+)(EnquiriesPage);
 
-export default MyCasesContainer;
+export default EnquiriesPageContainer;

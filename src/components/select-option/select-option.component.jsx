@@ -1,9 +1,9 @@
 import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import "../form-input/form-input.styles.scss";
+import {FormInputContainer, GroupContainer} from "../form-input/form-input.styles"
+import { FormControl } from "@material-ui/core";
 
 //Select dropdown to choose specialization and return its value
 class SelectSpecialization extends React.Component {
@@ -34,8 +34,8 @@ class SelectSpecialization extends React.Component {
 
     //reusing style from form-input taking out the property border "style={{border: "none"}}" to make it similar to the rest of the form
     return (
-      <div className="group">
-        <FormControl className="form-input" style={{ border: "none" }} required>
+      <GroupContainer>
+        <FormInputContainer as={FormControl} required>
           <InputLabel
             className="form-input-label"
             style={{ fontFamily: "Open Sans Condensed", fontWeight: "lighter" }}
@@ -73,8 +73,8 @@ class SelectSpecialization extends React.Component {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
-      </div>
+        </FormInputContainer>
+      </GroupContainer>
     );
   }
 }

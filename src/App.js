@@ -4,20 +4,19 @@ import { connect } from "react-redux";
 
 import "./App.css";
 
-import { firestore } from "./firebase/firebase.utils";
 
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/homepage.component";
 import Footer from "./components/Footer/Footer";
-//import MyCasesContainer from "./pages/my-cases/my-cases.container";
-import MyCases from "./pages/my-cases/my-cases.component";
+import EnquiriesPageContainer from "./pages/enquiries-page/enquiries-page.container";
+import EnquiriesPage from "./pages/enquiries-page/enquiries-page.component";
 
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser, setTypeOfUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { createStructuredSelector } from "reselect";
-import { convertCollectionsSnapshotToMap } from "./firebase/firebase.utils";
+
 import {fetchEnquiriesStartAsync} from "./redux/handleData/handleData.actions";
 
 
@@ -27,7 +26,7 @@ class App extends React.Component {
 
   //when a user log in, the state will change to the name of the user
   componentDidMount() {
-    const { setCurrentUser, setTypeOfUser, fetchEnquiriesStartAsync, currentUser } = this.props;
+    const { setCurrentUser, setTypeOfUser, fetchEnquiriesStartAsync } = this.props;
 
     //using auth library from firebase to listen to any changes that happen (e.g if a user login or logout)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -97,9 +96,13 @@ class App extends React.Component {
             render={() =>
               // if the user is not logged in, it redirects and does not allow user to go to "mycases" page
               !this.props.currentUser ? (
-                <Redirect to="/" /> // redirects to homepage
+                <Redirect to="/signin" /> // redirects to homepage
               ) : (
-                <MyCases />
+                this.props.currentUser.TypeOfUser === "Lawyer" ? (
+                  <EnquiriesPageContainer/> // redirects to homepage
+                ) : (
+                  <EnquiriesPage />
+                )
               )
             }
           />

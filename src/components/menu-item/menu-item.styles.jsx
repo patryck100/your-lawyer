@@ -1,4 +1,6 @@
-.menu-item {
+import styled from "styled-components";
+
+export const MenuItemContainer = styled.div`
   min-width: 30%;
   height: 240px;
   flex: 1 1 auto;
@@ -26,30 +28,22 @@
     & .content {
       opacity: 0.9;
     }
-  } 
- 
-  /*
-  &.large { //if the "large" exist, apply it...
-    height: 380px;
-  } */
-
-  &:first-child { //same thing as .menu-item:first-child {}
-    margin-right: 7.5px;
   }
+`;
 
-  &:last-child { //same thing as .menu-item:last-child {}
-    margin-left: 7.5px;
-  }
+//the background image of the menu item always stay in the center and cover the whole thing
+export const BackgroundImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
 
-  .background-image {
-    width: 100%;
-    height: 100%;
-     //the background image of the meny item always stay in the center and cover the whole thing
-    background-position: center;
-    background-size: cover;
-  }
+  //dinamically making style in the component by using url images to
+  //change each component accordly. If the url changes, the css value changes too
+  background-image: ${({ imageUrl }) => `url(${imageUrl})`};
+`;
 
-  .content { /* instead of .menu-item .content {} */
+export const ContentContainer = styled.div`
     height: 160px;
     width: 20%;
     padding: 0 25px;
@@ -64,17 +58,16 @@
     //no matter the elements in the page, the position will be always according position calculation
     position:absolute;
     overflow:auto;
+`;
 
-    .title {
-      font-weight: bold;
-      margin-bottom: 6px;
-      font-size: 22px;
-      color: #4a4a4a;
-    }
+export const ContentTitle = styled.span`
+  font-weight: bold;
+  margin-bottom: 6px;
+  font-size: 22px;
+  color: #4a4a4a;
+`;
 
-    .subtitle {
-      font-weight: lighter;
-      font-size: 16px;
-    }
-  }
-}
+export const ContentSubtitle = styled.span`
+  font-weight: lighter;
+  font-size: 16px;
+`;

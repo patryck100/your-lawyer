@@ -1,47 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux"; //let us modify our component to use redux
+import { connect } from "react-redux"; //modify component to use redux
 import { createStructuredSelector } from "reselect";
 
 import { auth } from "../../firebase/firebase.utils";
-import { selectCartHidden } from "../../redux/cart/cart.selectors";
+//import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors.js";
 
-//Syntax for importing svg image {ReactComponent as blabla}
-import { ReactComponent as Logo } from "../../assets/YL.svg";
-import CartIcon from "../cart-icon/cart-icon.component";
-import CartDropdown from "../cart-dropdown/cart-dropdown.component"
-import "./header.styles.scss";
+/* import CartIcon from "../cart-icon/cart-icon.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component"; */
+import { HeaderContainer, OptionsContainer, OptionLink, LogoImg } from "./header.styles";
 
-const Header = ({ currentUser, hidden }) => (
+const Header = ({ currentUser/* , hidden */ }) => (
   //creating a div to contain the logo, and another sub div options with shop and contact
-  <div className="header">
-    <Link className="logo-container" to="/">
-      <Logo className="logo" />
+  <HeaderContainer>
+    <Link to="/">
+      <LogoImg />
     </Link>
 
-    <div className="options">
+    <OptionsContainer>
       {currentUser ? ( //gives the user the option to sign out in case he/she is sign in already
-        <div className="option" onClick={() => auth.signOut()}>
+        <OptionLink as="div" onClick={() => auth.signOut()}>
           SIGN OUT
-        </div>
+        </OptionLink>
       ) : (
         //otherwise it points to the page to sign in
-        <Link className="option" to="/signin">
+        <OptionLink to="/signin">
           SIGN IN / REGISTER
-        </Link>
+        </OptionLink>
       )}
-      <Link className="option" to="/signin">
+      <OptionLink to="/signin">
         CONTACT
-      </Link>
-      <CartIcon />
-      {
-        /*Place the cart outside the header, but right below it */
-        //if hidden is true, render nothing, otherwise render the cart dropdown
-        hidden ? null : <CartDropdown />
-      }
-    </div>
-  </div>
+      </OptionLink>
+      {currentUser ? ( //if user is logged in, gives the option to access the enquiries page
+        <OptionLink to="/mycases">
+          ENQUIRIES
+        </OptionLink>
+      ) : null}
+    </OptionsContainer>
+  </HeaderContainer>
 );
 
 //state.user.currentUser === rooot-reducer.user.currentUser
@@ -49,7 +46,7 @@ const Header = ({ currentUser, hidden }) => (
 const mapStateToProps = createStructuredSelector({
   //state or {user: {currentUser}, cart: {hidden}}
   currentUser: selectCurrentUser,
-  hidden: selectCartHidden
+  //hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);

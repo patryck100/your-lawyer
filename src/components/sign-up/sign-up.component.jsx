@@ -8,7 +8,8 @@ import {
   createUserProfileDocument,
   signInWithGoogle,
 } from "../../firebase/firebase.utils";
-import "./sign-up.styles.scss";
+import { SignUpContainer, SignUpTitle } from "./sign-up.styles.jsx";
+import { ButtonsBarContainer } from "../sign-in/sign-in.styles";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -100,10 +101,10 @@ class SignUp extends React.Component {
 
 
     return (
-      <div className="sign-up">
-        <h2 className="title"> I do not have an account</h2>
+      <SignUpContainer>
+        <SignUpTitle> I do not have an account</SignUpTitle>
         <span>Sign up with your email and password</span>
-        <form className="sign-up-form" onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           {`${this.props.TypeOfUser}` === "Lawyer" ? ( //if user choose to register as a Lawyer, it must include a Professional License
             <div>
               <SelectSpecialization callBack={this.handleCallBack} />
@@ -149,7 +150,7 @@ class SignUp extends React.Component {
             label="Confirm Password"
             required
           />
-          <div className="buttons">
+          <ButtonsBarContainer>
             <CustomButton type="submit"> Sign up</CustomButton>
             {`${this.props.TypeOfUser}` === "Client" ? ( //Client has the option to sign in with google
               <CustomButton
@@ -160,9 +161,9 @@ class SignUp extends React.Component {
                 Sign up with Google
               </CustomButton>
             ) : null}
-          </div>
+          </ButtonsBarContainer>
         </form>
-      </div>
+      </SignUpContainer>
     );
   }
 }

@@ -2,7 +2,8 @@ import React from "react";
 //function that takes a component as argument and returns a modified component
 import { withRouter } from "react-router-dom"; //by using it, we will have access to history
 
-import './menu-item.styles.scss';
+//import './menu-item.styles.scss';
+import { MenuItemContainer, BackgroundImageContainer, ContentContainer, ContentTitle, ContentSubtitle } from "./menu-item.styles";
 
 
 
@@ -10,21 +11,14 @@ const MenuItem = ({title, imageUrl, Subtitle,  history, linkUrl}) => ( //{title}
   
 
     //toUpperCase() transform the text in capital letter
-  <div 
-  className="menu-item"  
+  <MenuItemContainer  
   onClick={() => history.push(`${linkUrl}`)}> 
-    <div className='background-image' 
-    style={{
-        //dinamically making style in the component by using url images to 
-        //change each component accordly. If the url changes, the css value changes too
-        backgroundImage: `url(${imageUrl})`
-    }}>
-    </div>
-    <div className="content">
-      <h1 className="title">{title.toUpperCase()}</h1> 
-      <span className="subtitle">{`${Subtitle}`}</span>
-    </div>
-  </div>
+  <BackgroundImageContainer className="background-image" imageUrl= {imageUrl} />
+    <ContentContainer className="content">
+      <ContentTitle>{title.toUpperCase()}</ContentTitle> 
+      <ContentSubtitle>{`${Subtitle}`}</ContentSubtitle>
+    </ContentContainer>
+  </MenuItemContainer>
 
 );
 

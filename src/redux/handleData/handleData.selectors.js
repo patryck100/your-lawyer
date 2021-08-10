@@ -10,14 +10,7 @@ export const selectCollections = createSelector(
     data => data.enquiries
   );
 
-  export const selectCollectionsForPreview = createSelector(
-    [selectHandleData],
-    //get the values from the object in an specific key
-    (enquiries) => //handle error of fetching data by render the items if exist, otherwise render null value 
-    enquiries ? Object.keys(enquiries).map((key) => enquiries[key]) : []
-  );
-
-
+  
 export const selectIsEnquiriesFetching = createSelector(
   [selectHandleData],
   data => data.isFetching

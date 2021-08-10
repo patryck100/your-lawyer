@@ -18,18 +18,22 @@ const styles = {
   cardSubtitle,
 };
 
+
 const useStyles = makeStyles(styles);
 
-export default function Cards({ specialization, contactInfo, enquiry }) {
+export default function Cards({ title, specialization, contactInfo, enquiry }) {
   const classes = useStyles();
   return (
     <Card style={{ width: "18rem" }}>
       <CardBody>
-        <h3 className={classes.cardTitle}>{specialization}</h3>
-        <h4 className={classes.cardSubtitle}>{contactInfo}</h4>
+        <h3 className={classes.cardTitle}>Title: {title.toUpperCase()}</h3>
+        <h4 className={classes.cardSubtitle}>Specialisation: {specialization}</h4>
         <p>{enquiry}</p>
         
-        <CustomButton onClick={(e) => e.preventDefault()} isCardsItem>
+        <CustomButton onClick={(e) => {
+          window.location = `mailto:${contactInfo}`;
+          e.preventDefault();
+      }} isCardsItem>
           CONTACT CLIENT
         </CustomButton>
       </CardBody>

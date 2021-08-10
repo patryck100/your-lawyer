@@ -30,8 +30,7 @@ export const addCollectionAndDocuments = async (objectToAdd) => {
 //convert collections snapshot doc from the firestore in object with only the properties we need
 export const convertCollectionsSnapshotToMap = (collections) => {  
   const transformedCollection = collections.docs.map((doc) => { //goes through each doc
-    const { createdAt, currentUser, enquiry, specialization } = doc.data(); //gets the data from the doc
-
+    const { createdAt, currentUser, enquiry, specialization, title } = doc.data(); //gets the data from the doc
     //returns the trasnformed obj with the properties we need
     return {
       //javascript render to convert unreadable url string to readable url
@@ -40,6 +39,7 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       currentUser,
       enquiry,
       specialization,
+      title,
     };
   });
   //returns a collection of objects

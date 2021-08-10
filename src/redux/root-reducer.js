@@ -3,7 +3,6 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; //tells redux persist to store in the local window browser
 
 import userReducer from "./user/user.reducer";
-import cartReducer from "./cart/cart.reducer";
 import directoryReducer from "./directory/directory.reducer";
 
 import handleDataReducer from "./handleData/handleData.reducer";
@@ -12,12 +11,10 @@ import handleDataReducer from "./handleData/handleData.reducer";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["cart"], //can increase if needed
 }; 
 
 const rootReducer = combineReducers({
   user: userReducer,
-  cart: cartReducer,
   directory: directoryReducer,
   data: handleDataReducer
 });

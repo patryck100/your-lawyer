@@ -16,7 +16,7 @@ import {
   CartItemsContainer,
 } from "./cart-dropdown.styles";
 
-const CartDropdown = ({ cartItems, history, dispatch }) => (
+const CartDropdown = ({ /* cartItems, */ history, dispatch }) => (
   <CartDropdownContainer>
     <CartItemsContainer>
       {/*cartItems.length ? ( //if the cartItems array has a length greater than 0, show the items
@@ -25,7 +25,7 @@ const CartDropdown = ({ cartItems, history, dispatch }) => (
         ))
       ) : (
         //otherwise show empty-message
-        <EmptyMessageContainer> Your cart is empty</EmptyMessageContainer>
+        <EmptyMessageContainer> You do not have any open case</EmptyMessageContainer>
       )*/}
       <EmptyMessageContainer> You do not have any open case</EmptyMessageContainer>
     </CartItemsContainer>
