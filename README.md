@@ -2,12 +2,12 @@
 This is my final project as a student at NCI, and even thoug my specialization is Java, I decided to challenge myself by learning a new Library "ReactJS" in a short time (2 months) and improve my skills as a software engineer and web developer. The objective of this project is to develop a responsive web application that connects licensed Lawyers to people who want to enquiry and solve juridical cases, allowing new Lawyers to gain professional exposure by solving new clients enquiries whereas users who simply want to solve a case can find a unique platform to facilitate their investigation. 
 
 # YOUR LAWYER application’s main goals are:
-•	Allow user to register as a Lawyer or as a Client
-•	Allow interaction between the two different types of users (Clients and Lawyers)
-•	Allow Clients to enquiry  new cases to specialists
-•	Allow specialist Lawyers to contact the author of enquiries
-•	Allow users to maintain enquiries (Create, Read, Update, Delete)
-•	Allow agreement between Clients and Lawyers
+-	Allow user to register as a Lawyer or as a Client
+-	Allow interaction between the two different types of users (Clients and Lawyers)
+-	Allow Clients to enquiry  new cases to specialists
+-	Allow specialist Lawyers to contact the author of enquiries
+-	Allow users to maintain enquiries (Create, Read, Update, Delete)
+-	Allow agreement between Clients and Lawyers
 
 # Deliverables yet to be Achieved
 • Allow users to maintain enquiries (Read, Update and Delete) are still not available
