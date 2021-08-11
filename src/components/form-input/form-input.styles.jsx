@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components";
-import SelectSpecialization from "../select-option/select-option.component";
 
 //Every time I use "sub-color" it applies the colour grey
 //whereas main-color applies black...
@@ -57,10 +56,3 @@ export const FormInputLabel = styled.label`
   }
 `;
 
-export const SelectSpecializationContainer = styled(SelectSpecialization)`
-  display: flex;
-  flex-direction: column;
-  font-family: Open Sans Condensed;
-  font-weight: lighter;
-  align-items: flex-start;
-`;

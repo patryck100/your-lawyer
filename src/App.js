@@ -11,7 +11,7 @@ import { connect } from "react-redux"; //has to import "yarn add react-redux"
 import { createStructuredSelector } from "reselect"; //has to import "yarn add reselect"
 
 
-import "./App.css";
+import { GlobalStyle } from "./global.styles"; //unique Global style that affects all the components in the app
 
 //Importing content to be dispayed to the user
 import Header from "./components/header/header.component";
@@ -93,7 +93,8 @@ class App extends React.Component {
       //Switch allows when the path in Route matches, it only render the component in that route
       //Swtich helps to render only what we want
       //by placing the Header outside the Switch, it will always be displayed and rendered
-      <div className="App">
+      <div>
+        <GlobalStyle/>
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />

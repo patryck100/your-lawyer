@@ -44,7 +44,7 @@ class SelectSpecialization extends React.Component {
         <FormInputContainer as={FormControl} required>
           <InputLabel
             className="form-input-label"
-            style={{ fontFamily: "Open Sans Condensed", fontWeight: "lighter" }}
+            style={{ fontFamily: "Open Sans Condensed", fontWeight: "lighter", left: "5px"}}
             id="specialization"
           >
             Specialization

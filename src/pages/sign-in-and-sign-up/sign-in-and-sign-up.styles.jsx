@@ -21,7 +21,7 @@ export const TypeOfUserContainer = styled.div`
 `;
 
 export const SignInAndSignUpContainer = styled.div`
-  width: 850px;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin: 30px auto;
