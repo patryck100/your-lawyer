@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const MenuItemContainer = styled.div`
-  min-width: 30%;
+  min-width: 140px;
   height: 240px;
   flex: 1 1 auto;
   display: flex;
@@ -46,6 +46,7 @@ export const BackgroundImageContainer = styled.div`
 export const ContentContainer = styled.div`
     height: 160px;
     width: 20%;
+    min-width: 130px;
     padding: 0 25px;
     display: flex;
     flex-direction:column;
@@ -57,7 +58,7 @@ export const ContentContainer = styled.div`
     opacity: 0.7;
     //no matter the elements in the page, the position will be always according position calculation
     position:absolute;
-    overflow:auto;
+    overflow: auto;
 `;
 
 export const ContentTitle = styled.span`
