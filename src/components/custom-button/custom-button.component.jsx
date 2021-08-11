@@ -8,4 +8,5 @@ const CustomButton = ({ children, ...props }) => (
   <CustomButtonContainer {...props}>{children}</CustomButtonContainer>
 );
 
+//by exporting, it allows this component to be called from another components
 export default CustomButton;

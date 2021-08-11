@@ -1,3 +1,4 @@
+//Those are the images for the menu-item that is displayed in the homepage and the lawyer's enquiries page
 const INITIAL_STATE = {
   client: [
     {

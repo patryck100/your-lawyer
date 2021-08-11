@@ -27,11 +27,11 @@ export const addCollectionAndDocuments = async (objectToAdd) => {
   return await batch.commit(); //commit the changes in the the database with a confirmation that everything was uploaded
 };
 
-//convert collections snapshot doc from the firestore in object with only the properties we need
+//convert collections snapshot doc from the firestore in object with only the properties needed
 export const convertCollectionsSnapshotToMap = (collections) => {  
   const transformedCollection = collections.docs.map((doc) => { //goes through each doc
     const { createdAt, currentUser, enquiry, specialization, title } = doc.data(); //gets the data from the doc
-    //returns the trasnformed obj with the properties we need
+    //returns the trasnformed obj with the properties needed
     return {
       //javascript render to convert unreadable url string to readable url
       id: doc.id,
@@ -42,8 +42,8 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       title,
     };
   });
-  //returns a collection of objects
-  return transformedCollection;
+  //returns the collection of objects
+  return transformedCollection; 
 };
 
 
@@ -67,7 +67,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     try {
       //the new document will depend on the "TypeOfUser"
       if (TypeOfUser === "Lawyer") {
-        //if it is a Lawyer, set specialization and license
+        //if it is a Lawyer, set specialisation and license
         await userRef.set({
           TypeOfUser,
           specialization,
@@ -78,7 +78,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
           ...additionalData,
         });
       } else {
-        //otherwise type of user will be Client, so it does not need specialization of license
+        //otherwise type of user will be Client, so it does not need specialisation or license
         TypeOfUser = "Client";
         await userRef.set({
           TypeOfUser,
@@ -96,9 +96,13 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   return userRef; //returns the snapShot document containing the userRef object
 };
 
+//Start connection with firebase using the credentials identified in "config"
 firebase.initializeApp(config);
 
+//gives access to the auth method from firebase
 export const auth = firebase.auth();
+
+//gives access to firestore from firebase. It is used to get the reference of objects in firebase
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();

@@ -16,4 +16,5 @@ const WithSpinner = WrappedComponent => {
     return Spinner;
 };
 
+//by exporting, it allows this component to be called from another components
 export default WithSpinner;

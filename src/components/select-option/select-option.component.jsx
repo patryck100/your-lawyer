@@ -1,9 +1,14 @@
 import React from "react";
+
+//Importing components already made from Material UI
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import {FormInputContainer, GroupContainer} from "../form-input/form-input.styles"
 import { FormControl } from "@material-ui/core";
+
+//Reusing styled components
+import {FormInputContainer, GroupContainer} from "../form-input/form-input.styles"
+
 
 //Select dropdown to choose specialization and return its value
 class SelectSpecialization extends React.Component {
@@ -32,9 +37,10 @@ class SelectSpecialization extends React.Component {
   render() {
     const { specialization, options } = this.state;
 
-    //reusing style from form-input taking out the property border "style={{border: "none"}}" to make it similar to the rest of the form
+    
     return (
       <GroupContainer>
+      {/* Using FormControl from material UI reusing styles from form-input component */}
         <FormInputContainer as={FormControl} required>
           <InputLabel
             className="form-input-label"
@@ -52,23 +58,22 @@ class SelectSpecialization extends React.Component {
           >
             <MenuItem
               value=""
-              style={{
+              style={{ //in case of a null value
                 fontFamily: "Open Sans Condensed",
                 fontWeight: "lighter",
               }}
             >
               <em>None</em>
             </MenuItem>
-            {options.map((option) => (
+            {options.map((option) => (//map through all the specialisation options
               <MenuItem
                 key={option.value}
                 value={option.value}
-                style={{
+                style={{ 
                   fontFamily: "Open Sans Condensed",
                   fontWeight: "lighter",
                 }}
               >
-                {" "}
                 {option.label}
               </MenuItem>
             ))}
@@ -77,6 +82,7 @@ class SelectSpecialization extends React.Component {
       </GroupContainer>
     );
   }
-}
+}//end of SelectSpecialization class
 
+//by exporting, it allows this component to be called from another components
 export default SelectSpecialization;

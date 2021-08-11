@@ -1,17 +1,20 @@
 import React from "react";
+
+//Redirects to a path when clicked on a Link
 import { Link } from "react-router-dom";
-import { connect } from "react-redux"; //modify component to use redux
+
+//connects with redux, allowing to use structured selectors
+import { connect } from "react-redux";
+//Creates an structure to send or request state from Redux
 import { createStructuredSelector } from "reselect";
-
-import { auth } from "../../firebase/firebase.utils";
-//import { selectCartHidden } from "../../redux/cart/cart.selectors";
 import { selectCurrentUser } from "../../redux/user/user.selectors.js";
+//Function from firebase used to sign in or out in the app
+import { auth } from "../../firebase/firebase.utils";
 
-/* import CartIcon from "../cart-icon/cart-icon.component";
-import CartDropdown from "../cart-dropdown/cart-dropdown.component"; */
+//Reusing styled components
 import { HeaderContainer, OptionsContainer, OptionLink, LogoImg } from "./header.styles";
 
-const Header = ({ currentUser/* , hidden */ }) => (
+const Header = ({ currentUser }) => (
   //creating a div to contain the logo, and another sub div options with shop and contact
   <HeaderContainer>
     <Link to="/">
@@ -41,12 +44,10 @@ const Header = ({ currentUser/* , hidden */ }) => (
   </HeaderContainer>
 );
 
-//state.user.currentUser === rooot-reducer.user.currentUser
-//createdStructuredSelector will match the states authomatically
+//Gets the current state of the user from Redux
 const mapStateToProps = createStructuredSelector({
-  //state or {user: {currentUser}, cart: {hidden}}
   currentUser: selectCurrentUser,
-  //hidden: selectCartHidden,
 });
 
+//by exporting, it allows this component to be called from another components
 export default connect(mapStateToProps)(Header);

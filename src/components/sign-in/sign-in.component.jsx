@@ -1,9 +1,13 @@
 import React from "react";
 
+//Importing reusable components to be rendered
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
+
+//Reusing styled components
 import { SignInContainer, SignInTitle, ButtonsBarContainer } from "./sign-in.styles";
 
+//Utils to allow connection to database
 import {auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 class SignIn extends React.Component {
@@ -20,28 +24,28 @@ class SignIn extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    //collects the email and password from the state (from the fields)
+    //allows access to current state of this class
     const {email, password} = this.state;
 
-    try {
-      /* const { user } =  */ await auth.signInWithEmailAndPassword(email, password);
-     // const userRef = firestore.doc(`users/${user.uid}`);
-     // const displayName = await (await userRef.get()).data().displayName;
+    try { //try and catch to handle errors
+      //Validate login through firebase API
+      await auth.signInWithEmailAndPassword(email, password);
+
 
         //clear the fields
         this.setState({ email: "", password: "" });
-       // alert("Login successful! Hello " + displayName);
-    } catch (error) {
+       
+    } catch (error) { // if try fails, handle errors
         alert("Sorry, email or password incorret!")
         console.log(error);
     }
 
-    
   };
 
+  //Update state of this class accoring to changes in the form
   handleChange = (event) => {
     const { value, name } = event.target;
-
+    //dynamically set the name according to the value
     this.setState({ [name]: value });
   };
 
@@ -81,4 +85,5 @@ class SignIn extends React.Component {
   }
 }
 
+//by exporting, it allows this component to be called from another components
 export default SignIn;

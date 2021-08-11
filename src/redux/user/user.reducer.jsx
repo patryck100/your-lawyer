@@ -1,5 +1,6 @@
-import {UserActionTypes} from './user.types';
+import {UserActionTypes} from './user.types'; 
 
+//Initial state is set to null to avoid "undefined" errors
 const INITIAL_STATE = {
     currentUser : null,
     TypeOfUser: null,
@@ -7,14 +8,14 @@ const INITIAL_STATE = {
 
 //if state is undefined, it uses the INITIAL_STATE through this sintax below "state = INITIAL_STATE"
 const userReducer = (state = INITIAL_STATE, action) => {
-    //can use if statement as well
+    //can use if statement as well, but switch seem to be more readable
     switch(action.type) { //it will check every action's type
-        case UserActionTypes.SET_CURRENT_USER: //in case of an "SET_CURRENT_USER"
+        case UserActionTypes.SET_CURRENT_USER: //in case of an "SET_CURRENT_USER"...
             return {
-                ...state, //we don't mind about the other states...
+                ...state, //don't mind about the other states...
                 currentUser: action.payload //set the currentUser to whatever payload is passed in
             };
-        case UserActionTypes.SET_TYPE_OF_USER:
+        case UserActionTypes.SET_TYPE_OF_USER: //in case of...
             return {
                 ...state,
                 TypeOfUser: action.payload
@@ -26,4 +27,5 @@ const userReducer = (state = INITIAL_STATE, action) => {
     }
 }
 
+//by exporting, it allows this function to be called from another components
 export default userReducer;

@@ -1,24 +1,34 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+
+//Switch allows when the path in Route matches, it only render the component in that route
+//The path in the Route is what will be rendered to the user
+//Redirect allows it to block or redirects certain path
+import { Switch, Route, Redirect } from "react-router-dom"; //has to import "yarn add react-router-dom"
+
+//Connect is a way to connect Redux to the application, this way it can communicate and update the state
+import { connect } from "react-redux"; //has to import "yarn add react-redux"
+//Creates a structure to allow the application to select an action from Redux and do something with the state
+import { createStructuredSelector } from "reselect"; //has to import "yarn add reselect"
+
 
 import "./App.css";
 
-
+//Importing content to be dispayed to the user
 import Header from "./components/header/header.component";
 import HomePage from "./pages/homepage/homepage.component";
 import Footer from "./components/Footer/Footer";
 import EnquiriesPageContainer from "./pages/enquiries-page/enquiries-page.container";
 import EnquiriesPage from "./pages/enquiries-page/enquiries-page.component";
-
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
+
+//Importing actions and functions
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser, setTypeOfUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
-import { createStructuredSelector } from "reselect";
-
-import {fetchEnquiriesStartAsync} from "./redux/handleData/handleData.actions";
-
+import {
+  fetchEnquiriesStartAsync, //when the user logs in, it fetches the enquiries related to that user
+  setEnquiriesToNull, //when the user logs out, it sets the state of the enquiries back to null to avoid data leaking
+} from "./redux/handleData/handleData.actions";
 
 class App extends React.Component {
   //use it to avoid memory leaks of authentication. Set authentication to null
@@ -26,7 +36,13 @@ class App extends React.Component {
 
   //when a user log in, the state will change to the name of the user
   componentDidMount() {
-    const { setCurrentUser, setTypeOfUser, fetchEnquiriesStartAsync } = this.props;
+    //gives the function access to the set methods through the props
+    const {
+      setCurrentUser,
+      setTypeOfUser,
+      fetchEnquiriesStartAsync,
+      setEnquiriesToNull,
+    } = this.props;
 
     //using auth library from firebase to listen to any changes that happen (e.g if a user login or logout)
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -35,16 +51,17 @@ class App extends React.Component {
         //get the user object and pass in to the createUser function
         const userRef = await createUserProfileDocument(userAuth); //if the user is not registered, create a new userRef doc
 
-        //collecting the data from database to the application, by setting state to the user properties
+        //collecting the data from database to the application
         userRef.onSnapshot((snapShot) => {
           //whenever the snapshot updates (set new data, delete, create...)
           setCurrentUser({
-            //uses redux to set the current user state in the application to the object from the database
+            //this function is dispatched through redux to update the state of the current user
+            //distructuor the data from currentUser coming from firebase in a way to be passed as payload to redux
             id: snapShot.id,
             ...snapShot.data(),
           });
           setTypeOfUser({
-            //when the user logs in, set the type of user in the app
+            //set the type of user according to data coming from the login
             TypeOfUser: snapShot.data().TypeOfUser,
           });
 
@@ -53,11 +70,13 @@ class App extends React.Component {
             //fetches the user's specialization and pass as a prop to collect the enquiries tagged with this specialization
             fetchEnquiriesStartAsync(snapShot.data().specialization);
           }
-
+          //When the user logs in, displays a greeting to the user
+          //alert("Login successful! Hello " + snapShot.data().displayName);
         });
       } else {
         //set state of the current user to null again
         setCurrentUser(userAuth);
+        setEnquiriesToNull(); //set Enquiries statement to null to avoid data leaking
       }
     });
   }
@@ -94,15 +113,16 @@ class App extends React.Component {
             exact
             path="/mycases"
             render={() =>
-              // if the user is not logged in, it redirects and does not allow user to go to "mycases" page
+              // if the user is NOT logged in, it redirects and does not allow user to go to "mycases" page
               !this.props.currentUser ? (
-                <Redirect to="/signin" /> // redirects to homepage
+                <Redirect to="/signin" /> // redirects to the sign in page
+              ) : //whereas if the user is logged in as a Lawyer, it uses the EnquiriesPageContainer
+              //to display a spinner while the data is not loaded yet and avoid errors, otherwise displays the data itself
+              this.props.currentUser.TypeOfUser === "Lawyer" ? (
+                <EnquiriesPageContainer /> // redirects to homepage
               ) : (
-                this.props.currentUser.TypeOfUser === "Lawyer" ? (
-                  <EnquiriesPageContainer/> // redirects to homepage
-                ) : (
-                  <EnquiriesPage />
-                )
+                //Since the client EnquiriesPage does not need to fetch data, it does not need the spinner "EnquiriesPageContainer".
+                <EnquiriesPage />
               )
             }
           />
@@ -111,17 +131,22 @@ class App extends React.Component {
       </div>
     );
   }
-}
+} // end of App Class
 
+//Gets the current state from Redux and pass in as a props
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
 //dispatch is just a way to inform redux that this is an action obj to be sent to every reducer
+//basically those actions updates the state of the application in Redux, and allows Redux to update the props in the entire application
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
   setTypeOfUser: (TypeOfUser) => dispatch(setTypeOfUser(TypeOfUser)),
-  fetchEnquiriesStartAsync: (specialization) => dispatch(fetchEnquiriesStartAsync(specialization)),
+  fetchEnquiriesStartAsync: (specialization) =>
+    dispatch(fetchEnquiriesStartAsync(specialization)),
+  setEnquiriesToNull: () => dispatch(setEnquiriesToNull()),
 });
 
+//Connect is a way to connect Redux to the application, this way it can communicate and update the state
 export default connect(mapStateToProps, mapDispatchToProps)(App);

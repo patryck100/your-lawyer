@@ -1,4 +1,6 @@
 import React from "react";
+
+//Reusing style from Material UI
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -48,6 +50,7 @@ function a11yProps(index) {
   };
 }
 
+//by exporting, it allows this function to be called from another components
 export default function CenteredTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -56,7 +59,7 @@ export default function CenteredTabs() {
     setValue(newValue);
   };
 
-  return (
+  return ( //This will display the a centered tab with Client and Lawyer options, explaining the two types of users
     <Paper className={classes.root}>
       <Tabs
         value={value}
@@ -78,15 +81,14 @@ export default function CenteredTabs() {
         </li>
         <li>Specialist Lawyers registered in the app will contact you</li>
         <li>Make a deal and solve your case</li>
-        <li>Rate our Lawyers and help us to improve our service</li>
       </TabPanel>
       <TabPanel value={value} index={1}>
         Are you looking for professional exposure? By registering as a Lawyer:
         <li>
-          You can register your specialization and receive cases from our
+          You can register your specialization and receive enquiries from our
           Clients
         </li>
-        <li>Consult your cases</li>
+        <li>Consult enquiries tagged with your specialisation</li>
         <li>Solve cases and gain professional exposure</li>
       </TabPanel>
     </Paper>

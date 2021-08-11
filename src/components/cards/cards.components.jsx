@@ -6,6 +6,7 @@ import Card from "../Card/Card.js";
 import CardBody from "../Card/CardBody.js";
 import CustomButton from "../custom-button/custom-button.component.jsx";
 
+//Importing styles from Material UI
 import {
   cardTitle,
   cardLink,
@@ -21,6 +22,9 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+//by exporting, it allows this component to be called from another components
+//This function renders the enquiries cards in the Lawyer enquiries page according to 
+//argument passed in as props
 export default function Cards({ title, specialization, contactInfo, enquiry }) {
   const classes = useStyles();
   return (
@@ -31,7 +35,7 @@ export default function Cards({ title, specialization, contactInfo, enquiry }) {
         <p>{enquiry}</p>
         
         <CustomButton onClick={(e) => {
-          window.location = `mailto:${contactInfo}`;
+          window.location = `mailto:${contactInfo}`; //on click, redirects the Lawyer to contact a client through email
           e.preventDefault();
       }} isCardsItem>
           CONTACT CLIENT

@@ -13,6 +13,7 @@ import styles from "./footerStyle";
 
 const useStyles = makeStyles(styles);
 
+//Functio reused from Material UI
 export default function Footer(props) {
   const classes = useStyles();
   const { whiteFont } = props;

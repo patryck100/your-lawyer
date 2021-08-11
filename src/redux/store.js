@@ -1,11 +1,14 @@
-import { createStore, applyMiddleware } from "redux";
-import { persistStore } from "redux-persist";
-import logger from "redux-logger";
+//createStore connects the rootReducer to the middlewares, in a way that every time an action
+//is sent to Redux, the middleware intercepts and do something with it
+import { createStore, applyMiddleware } from "redux"; //has to import "yarn add redux"
+
+//loggs every action intercepted by the middleware in the console
+import logger from "redux-logger"; //has to import "yarn add redux-logger"
 
 //allows to handle multiple async events and multiple actions by catching all functions and dispatching it through the middleware
 import thunk from 'redux-thunk'; //has to import "yarn add redux-thunk" 
 
-import rootReducer from "./root-reducer";
+import rootReducer from "./root-reducer"; 
 
 //this is just to make it scalable, to increase with the input
 const middlewares = [thunk];
@@ -21,7 +24,4 @@ if(process.env.NODE_ENV === 'development') {
 //when actions come through being dispached by any action, it updates the reducer and the middlewares intercept the info and do something
 export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
-//allows the browser to catch or store data depending on configuration option
-export const persistor = persistStore(store);
 
-//export default { store, persistor };

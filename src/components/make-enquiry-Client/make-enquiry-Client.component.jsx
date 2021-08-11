@@ -1,8 +1,12 @@
 import React from "react";
+//connects with redux, allowing to use structured selectors
 import { connect } from "react-redux";
+//Creates an structure to send or request state from Redux
 import { createStructuredSelector } from "reselect";
+//Selector from redux, fetches the current state of the user
 import { selectCurrentUser } from "../../redux/user/user.selectors";
 
+//Reusing styled components
 import {
   Header1,
   Header2,
@@ -11,14 +15,16 @@ import {
 } from "../../pages/sign-in-and-sign-up/sign-in-and-sign-up.styles";
 import { HomePageContainer } from "../../pages/homepage/homepage.styles";
 
+//Importing reusable components to be rendered - Some of them from Material UI
 import { TextField } from "@material-ui/core";
 import Card from "../Card/Card";
 import CardBody from "../Card/CardBody";
 import CardFooter from "../Card/CardFooter";
 import CardHeader from "../Card/CardHeader";
 import CustomButton from "../custom-button/custom-button.component";
+
+//This function add enquiries to firebase
 import { addCollectionAndDocuments } from "../../firebase/firebase.utils";
-//import { addItem } from "../../redux/cart/cart.actions";
 
 class EnquiryComponent extends React.Component {
   state = {
@@ -36,27 +42,32 @@ class EnquiryComponent extends React.Component {
     title: "",
   };
 
+  //Handle submit when clicking on the button "Send your enquiry"
   handleSubmit = async (event) => {
+    //if it does not meet all the requirements in this code, does not allow it to submit the form
     event.preventDefault();
-
+    //allows access to state and props in this class
     var { specialization, enquiry, title } = this.state;
+    const { currentUser } = this.props;
 
+    //validates if any of the fiels is empty
     if (enquiry === "" || specialization === "" || title === "") {
       if (specialization === "") {
-        alert( "Please Select an specialization before submiting the enquiry");
+        alert("Please Select an specialization before submiting the enquiry");
       } else if (title === "") {
         alert("Sorry, please type a title for your equiry before submiting");
       } else {
-        alert( "Sorry, please type in your enquiry before submiting")
+        alert("Sorry, please type in your enquiry before submiting");
       }
       return; //do nothing
     }
 
     try {
-      const { currentUser } = this.props;
+      //try and catch to handle any erros
       specialization = specialization.value; //only needs the value from this obj
       const createdAt = new Date(); //current date and time it was created
       await addCollectionAndDocuments({
+        //upload enquiry obj to firebase
         specialization,
         title,
         enquiry,
@@ -68,11 +79,11 @@ class EnquiryComponent extends React.Component {
       this.setState({
         specialization: "",
         enquiry: "",
-        title: ""
+        title: "",
       });
 
-      //inform the user that the register was sucessfully
-      alert("Enquiry upload successfuly");
+      //inform the user that the enquiry was uploaded sucessfully
+      alert("Enquiry uploaded successfuly");
     } catch (error) {
       //handle errors
       alert("Something went wrong!");
@@ -80,15 +91,17 @@ class EnquiryComponent extends React.Component {
     }
   };
 
+  //Handle changes from the external component "SelectContainer"
   handleCallBack = (callBack) => {
     this.setState({ specialization: callBack });
     console.log(callBack);
   };
 
+  //handle changes made in the form
   handleChange = (event) => {
     const { value, name } = event.target;
+    //dynamically set the name according to the value
     this.setState({ [name]: value });
-    console.log(event.target.value);
   };
 
   render() {
@@ -123,35 +136,34 @@ class EnquiryComponent extends React.Component {
                 marginBottom: "15px",
               }}
             >
-            <div style={{marginBottom: "10px"}}>
-            <TextField
-              name="title"
-              label="TITLE"
-              value={title}
-              placeholder="Title to your enquiry..."
-              onChange={this.handleChange}
-              variant="outlined"
-              required
-            />
-            </div>
-            <div>
-            <TextField
-              multiline
-              name="enquiry"
-              label="ENQUIRY"
-              value={enquiry}
-              placeholder="Make your enquiry here"
-              onChange={this.handleChange}
-              variant="outlined"
-              required
-            />
-            
-            </div>
+              <div style={{ marginBottom: "10px" }}>
+                <TextField
+                  name="title"
+                  label="TITLE"
+                  value={title}
+                  placeholder="Title to your enquiry..."
+                  onChange={this.handleChange}
+                  variant="outlined"
+                  required
+                />
+              </div>
+              <div>
+                <TextField
+                  multiline
+                  name="enquiry"
+                  label="ENQUIRY"
+                  value={enquiry}
+                  placeholder="Make your enquiry here"
+                  onChange={this.handleChange}
+                  variant="outlined"
+                  required
+                />
+              </div>
             </CardBody>
             <CardFooter
               style={{
                 paddingTop: "0rem",
-                justifyContent: "flex-end", //allows the buttom to be place on the right end of the card component
+                justifyContent: "flex-end", //place the button on the right end of the card component
               }}
             >
               <CustomButton type="submit" onClick={this.handleSubmit}>
@@ -165,15 +177,10 @@ class EnquiryComponent extends React.Component {
   }
 }
 
+//Gets the current state of the user from Redux
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
 });
 
-//every time this function is called, it gets the item as a property and dispatch it to redux as an action
-/* const mapDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(addItem(item)),
-}); */
-
-export default connect(mapStateToProps /* , mapDispatchToProps */)(
-  EnquiryComponent
-);
+//by exporting, it allows this component to be called from another components
+export default connect(mapStateToProps)(EnquiryComponent);

@@ -1,16 +1,22 @@
 import React from "react";
+
+//Importing reusable components to be rendered
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import SelectSpecialization from "../select-option/select-option.component";
 
+//Utils to allow connection to database
 import {
   auth,
   createUserProfileDocument,
   signInWithGoogle,
 } from "../../firebase/firebase.utils";
+
+//Reusing styled components
 import { SignUpContainer, SignUpTitle } from "./sign-up.styles.jsx";
 import { ButtonsBarContainer } from "../sign-in/sign-in.styles";
 
+//Connection with redux to update state in the entire application
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { selectTypeOfUser } from "../../redux/user/user.selectors";
@@ -30,12 +36,15 @@ class SignUp extends React.Component {
     };
   }
 
-  
+  //When the user click on the sign up button
   handleSubmit = async (event) => {
-    event.preventDefault();
+    //if it does not meet all the requirements in this code, does not allow it to submit the form
+    event.preventDefault(); 
 
+    //allows this function to have access to the state in this class
     const { displayName, email, password, confirmPassword, license, specialization } =
       this.state;
+    const {TypeOfUser} = this.props;
 
     if (password !== confirmPassword) {
       //validate password
@@ -43,21 +52,18 @@ class SignUp extends React.Component {
       return; //do nothing
     }
 
-    try {
+    try { //uses try and catch to handle errors
+      //creates a new user associated with email and password and also login
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
-      ); //creates a new user associated with email and password and also login
+      );  
 
-      const {TypeOfUser} = this.props;
-
-      if (TypeOfUser === "Lawyer") { //if the user is a Lawyer, create an user profile document with license and specialization
+      if (TypeOfUser === "Lawyer") { //if the user is a Lawyer, create a user profile document with license and specialization
         await createUserProfileDocument(user, { displayName, license, specialization, TypeOfUser });
-      } else {
+      } else { //otherwise just the regular user information "display name and the type of user"
         await createUserProfileDocument(user, { displayName, TypeOfUser });
       }
-
-      
 
       //after awaiting new registration, clear the form back to empty
       this.setState({
@@ -69,28 +75,30 @@ class SignUp extends React.Component {
         confirmPassword: "",
       });
 
-      //inform the user that the register was sucessfully
+      //inform the user that the register was sucessfull
       alert("Account registered successfuly");
     } catch (error) {
-      //handle errors
+      //otherwise handle errors
 
       alert("Something went wrong!");
       console.error(error);
     }
   };
 
+  //every time the input change in the form, update the state accordly
   handleChange = (event) => {
     const { name, value } = event.target;
-
     //dynamically set the name according to the value
     this.setState({ [name]: value });
   };
 
+  //Handle changes from the external component "SelectSpecialization"
   handleCallBack = (callBack) => {
     this.setState({specialization: callBack})
   }
 
   render() {
+    //gives access to the current states of this class
     const {
       displayName,
       email,
@@ -117,7 +125,7 @@ class SignUp extends React.Component {
                 required
               />
             </div>
-          ) : null}
+          ) : null /* Otherwise don't need to render anything */}
           <FormInput
             type="text"
             name="displayName"
@@ -168,8 +176,10 @@ class SignUp extends React.Component {
   }
 }
 
+//Gets the current Type of user from Redux
 const mapStateToProps = createStructuredSelector({
   TypeOfUser: selectTypeOfUser,
 });
 
+//by exporting, it allows this component to be called from another components
 export default connect(mapStateToProps)(SignUp);
