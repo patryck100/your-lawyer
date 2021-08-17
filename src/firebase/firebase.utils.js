@@ -15,22 +15,26 @@ const config = {
   measurementId: "G-P3FQY77VEP",
 };
 
-
 //Add new collections or documents to firestore
 export const addCollectionAndDocuments = async (objectToAdd) => {
-  const collectionRef = firestore.collection(objectToAdd.specialization); //if the collection ref exists, use it otherwise creates a new collection
+  //if the collection ref exists, use it otherwise creates a new collection
+  const collectionRef = firestore.collection(objectToAdd.specialization); 
 
-  const batch = firestore.batch(); //it is a secury way to upload things to database since if it is interrupted it doesn't upload, only if it is completely successful
-  const newDocRef = collectionRef.doc(); //creates a new document reference and randomly generate IDs
+  //it is a secury way to upload things to database since if it is interrupted it doesn't upload, only if it is completely successful
+  const batch = firestore.batch(); 
+  //creates a new document reference and randomly generate IDs
+  const newDocRef = collectionRef.doc(); 
   batch.set(newDocRef, objectToAdd);
-
-  return await batch.commit(); //commit the changes in the the database with a confirmation that everything was uploaded
+  //commit the changes in the the database with a confirmation that everything was uploaded
+  return await batch.commit(); 
 };
 
 //convert collections snapshot doc from the firestore in object with only the properties needed
-export const convertCollectionsSnapshotToMap = (collections) => {  
-  const transformedCollection = collections.docs.map((doc) => { //goes through each doc
-    const { createdAt, currentUser, enquiry, specialization, title } = doc.data(); //gets the data from the doc
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    //goes through each doc
+    const { createdAt, currentUser, enquiry, specialization, title } =
+      doc.data(); //gets the data from the doc
     //returns the trasnformed obj with the properties needed
     return {
       //javascript render to convert unreadable url string to readable url
@@ -43,9 +47,8 @@ export const convertCollectionsSnapshotToMap = (collections) => {
     };
   });
   //returns the collection of objects
-  return transformedCollection; 
+  return transformedCollection;
 };
-
 
 //Check if the user exist or create a new one in the firebase
 export const createUserProfileDocument = async (userAuth, additionalData) => {

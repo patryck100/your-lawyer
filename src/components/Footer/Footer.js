@@ -41,11 +41,11 @@ export default function Footer(props) {
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.linkedin.com/in/patryck-brenner/"
+                href="https://mqz6mb46y1p.typeform.com/to/iHRJInM4"
                 className={classes.block}
                 target="_blank"
               >
-                LinkedIn
+                LEAVE ME A FEEDBACK
               </a>
             </ListItem>
           </List>

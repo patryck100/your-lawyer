@@ -32,9 +32,9 @@ const Header = ({ currentUser }) => (
           SIGN IN / REGISTER
         </OptionLink>
       )}
-      <OptionLink to="/signin">
+      {/* <OptionLink to="/signin">
         CONTACT
-      </OptionLink>
+      </OptionLink> */}
       {currentUser ? ( //if user is logged in, gives the option to access the enquiries page
         <OptionLink to="/mycases">
           ENQUIRIES

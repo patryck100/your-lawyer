@@ -2,7 +2,9 @@ import { combineReducers } from "redux";
 
 import userReducer from "./user/user.reducer";
 import directoryReducer from "./directory/directory.reducer";
+
 import handleDataReducer from "./handleData/handleData.reducer";
+
 
 
 //This is like creating an unique state for the entire application,

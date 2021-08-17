@@ -20,8 +20,8 @@ class SignIn extends React.Component {
     };
   }
 
-  //prevent the submit action 
   handleSubmit = async (event) => {
+    //prevent the submit action 
     event.preventDefault();
 
     //allows access to current state of this class
