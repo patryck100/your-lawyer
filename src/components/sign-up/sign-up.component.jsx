@@ -80,8 +80,8 @@ class SignUp extends React.Component {
     } catch (error) {
       //otherwise handle errors
 
-      alert("Sorry, something went wrong! " + error);
-      console.error(error);
+      alert("Sorry, something went wrong! " + error.message);
+      console.error(error.message);
     }
   };
 
