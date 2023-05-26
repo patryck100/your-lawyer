@@ -16,8 +16,8 @@ This is my final project as a student at NCI, and even though my specialization 
 
 
 # Technical Information
-- The application was deployed on Heroku
-Link: [https://your-lawyer.herokuapp.com/](https://your-lawyer.herokuapp.com/)
+- The application was deployed on Netlify
+Link: [https://your-lawyer.netlify.app](https://your-lawyer.netlify.app)
 - It uses Firebase API to authenticate and store user data
 - The application makes use of Redux to manage the state, mitigate complexity and allow future scalability
 - Users can quickly navigate between pages through Router and Switch from "react-router-dom" library
