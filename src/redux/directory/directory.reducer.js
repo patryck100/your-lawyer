@@ -40,7 +40,7 @@ const INITIAL_STATE = {
     },
     {
       title: "Make a deal",
-      imageUrl: "https://i.ibb.co/TKmk5Qg/deal.jpg",
+      imageUrl: "https://i.ibb.co/RhPbBBP/make-a-deal.jpg",
       id: 3,
       linkUrl: "/mycases",
       Subtitle: "Gain professional exposure and make money!",
